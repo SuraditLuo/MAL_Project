@@ -1,4 +1,4 @@
-# 331-lab04-5
+# MAL_Project
 
 ## Project setup
 ```
