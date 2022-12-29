@@ -18,13 +18,17 @@
 </template>
 
 <style>
+body {
+  background-color: rgba(133, 120, 207, 0.268);
+}
+
 #app {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin: auto 10rem;
+  margin: auto 5rem;
 }
 
 nav {
