@@ -1,22 +1,24 @@
 import { createStore } from "vuex";
 import loginService from "../services/LoginService";
 import router from "@/router";
+
 export default createStore({
   state: {
     loggedIn: false,
+    anime: "",
     users: [
       {
         username: "TokiDokor",
         password: "Milk@081",
-        favorites: [],
+        favorites: [{ id: "", score: "" }],
       },
       {
         username: "user",
         password: "123",
-        favorites: [],
+        favorites: [{ id: "", score: "" }],
       },
     ],
-    currentUser: null,
+    currentUser: { username: "", favorites: [] },
     username: "",
     password: "",
   },
@@ -29,7 +31,7 @@ export default createStore({
       );
       if (result) {
         this.commit("loginSuccess");
-        router.push("/");
+        router.go(-1);
       } else {
         this.commit("loginFail");
         alert("Invalid username or password");
@@ -37,7 +39,7 @@ export default createStore({
     },
     logout() {
       this.commit("resetState");
-      router.push("/");
+      router.push("");
     },
   },
   mutations: {

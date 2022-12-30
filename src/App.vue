@@ -1,7 +1,7 @@
 <template>
   <nav>
     <router-link to="/"><a class="logo">Anime Lookup</a></router-link>
-    <span v-if="this.$route.name == 'home'">
+    <span v-if="this.$route.name !== 'login'">
       <span v-if="this.$store.state.loggedIn == false">
         <router-link to="/login">
           <a class="login-button">Log in</a>

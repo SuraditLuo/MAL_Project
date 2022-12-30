@@ -1,12 +1,17 @@
 <template>
   <div class="card">
-    <a :href="anime.url" target="_blank">
-      <img :src="anime.main_picture" :alt="anime.title + ' Poster'" />
-      <span class="below-anime-image">
-        <h4>{{ anime.title }}</h4>
-        <h4 class="star">&star;</h4>
-      </span>
-    </a>
+    <router-link
+      target="_self"
+      :to="{ name: 'animeDetail', params: { id: anime.mal_id } }"
+    >
+      <a>
+        <img :src="anime.main_picture" :alt="anime.title + ' Poster'" />
+        <span class="below-anime-image">
+          <h4>{{ anime.title }}</h4>
+          <h4 class="star">&star;</h4>
+        </span>
+      </a>
+    </router-link>
   </div>
 </template>
 <script>
