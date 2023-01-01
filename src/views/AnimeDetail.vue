@@ -28,22 +28,32 @@
         </span>
       </h4>
       <h4>Studio: {{ anime.studios[0].name }}</h4>
-      <h3>
-        Your score:
-        <select id="score">
-          <option value="0">0</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option></select
-        >/10 <button class="submit">Add to list</button>
-      </h3>
+      <span v-if="loggedIn">
+        <h3>
+          Rate this anime:
+          <select id="score" v-model="givenScore">
+            <option value="" disabled selected>Score</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option></select
+          >/10
+          <span v-if="givenScore != ''"
+            ><button class="submit" @click="this.$store.dispatch('AddToList')">
+              Add to list
+            </button></span
+          ><span v-else
+            ><button class="disabled-submit">Add to list</button></span
+          >
+        </h3>
+      </span>
     </div>
   </div>
   <hr />
@@ -71,7 +81,16 @@ export default {
     ...mapState({
       user: (state) => state.currentUser.username,
       anime: (state) => state.anime.data,
+      loggedIn: (state) => state.loggedIn,
     }),
+    givenScore: {
+      get() {
+        return this.$store.state.givenScore;
+      },
+      set(input) {
+        this.$store.commit("setScoreInput", input);
+      },
+    },
   },
 };
 </script>
@@ -152,7 +171,8 @@ hr {
   display: inline-flex;
   margin-right: 5px;
 }
-.submit {
+.submit,
+.disabled-submit {
   background-color: rgba(0, 255, 76, 0.718);
   color: white;
   border-radius: 16px;
@@ -162,10 +182,17 @@ hr {
   padding: 5px 10px;
   margin-left: 20px;
 }
+.disabled-submit {
+  opacity: 50%;
+}
 .submit:hover {
   cursor: pointer;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
+.disabled-submit:hover {
+  cursor: default;
+}
+
 .tab {
   padding-left: 50px;
 }

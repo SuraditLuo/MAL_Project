@@ -1,21 +1,26 @@
 import { createStore } from "vuex";
 import loginService from "../services/LoginService";
 import router from "@/router";
+import VuexPersistence from "vuex-persist";
 
+const vuexLocal = new VuexPersistence({
+  storage: window.localStorage,
+});
 export default createStore({
   state: {
     loggedIn: false,
+    givenScore: "",
     anime: "",
     users: [
       {
         username: "TokiDokor",
         password: "Milk@081",
-        favorites: [{ id: "", score: "" }],
+        favorites: [],
       },
       {
         username: "user",
         password: "123",
-        favorites: [{ id: "", score: "" }],
+        favorites: [],
       },
     ],
     currentUser: { username: "", favorites: [] },
@@ -39,13 +44,41 @@ export default createStore({
     },
     logout() {
       this.commit("resetState");
-      router.push("");
+    },
+    AddToList() {
+      this.commit("AddSuccess");
+      alert("Successfully add this anime into your list.");
     },
   },
   mutations: {
+    AddSuccess(state) {
+      state.currentUser.favorites.push({
+        id: state.anime.data.mal_id,
+        name: state.anime.data.title,
+        score: state.givenScore,
+      });
+      // sort the favorite list
+      state.currentUser.favorites.sort((a, b) => {
+        return b.score - a.score;
+      });
+      // find a matching user list, then set the favorite to current user favorite
+      let selectedUser = state.users.find(
+        (user) => user.username === state.currentUser.username
+      );
+      console.log(state.currentUser);
+      if (selectedUser) {
+        selectedUser.favorites = state.currentUser.favorites;
+      }
+      console.log(state.users);
+    },
     resetState(state) {
       this.state.loggedIn = false;
       state.currentUser = null;
+      if (router.currentRoute.value.fullPath == "/favorite") {
+        router.go(-1);
+      } else {
+        router.push("");
+      }
     },
     loginSuccess(state) {
       state.loggedIn = true;
@@ -64,7 +97,12 @@ export default createStore({
     setPasswordInput(state, input) {
       state.password = input;
     },
+    setScoreInput(state, input) {
+      state.givenScore = input;
+      console.log(state.givenScore);
+    },
   },
   getters: {},
   modules: {},
+  plugins: [vuexLocal.plugin],
 });

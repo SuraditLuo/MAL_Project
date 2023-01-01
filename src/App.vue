@@ -8,6 +8,9 @@
         </router-link>
       </span>
       <span v-else>
+        <router-link to="/favorite"
+          ><a class="favorite-button">Favorite</a></router-link
+        >
         <a class="logout-button" @click="this.$store.dispatch('logout')"
           >Log out</a
         >
@@ -70,5 +73,16 @@ nav a {
   background-color: rgb(133, 120, 207);
   color: rgb(255, 255, 255);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.favorite-button {
+  margin-top: 30px;
+  display: inline-block;
+  background-color: rgba(223, 186, 37, 0.878);
+  border-radius: 5px;
+  width: 75px;
+  padding: 4px 0px;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  margin-right: 16px;
 }
 </style>

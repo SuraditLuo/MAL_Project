@@ -4,6 +4,7 @@ import LoginView from "../views/LoginView.vue";
 import AnimeDetailView from "../views/AnimeDetail.vue";
 import AnimeService from "@/services/AnimeService.js";
 import store from "@/store/index.js";
+import UserFavoriteView from "../views/FavoriteListView.vue";
 const routes = [
   {
     path: "/",
@@ -31,9 +32,15 @@ const routes = [
     beforeEnter: (to) => {
       return AnimeService.getAnime(to.params.id).then((response) => {
         store.state.anime = response.data;
+        store.state.givenScore = "";
         console.log(store.state.anime);
       });
     },
+  },
+  {
+    path: "/favorite",
+    name: "favorite",
+    component: UserFavoriteView,
   },
 ];
 
