@@ -5,6 +5,7 @@ import AnimeDetailView from "../views/AnimeDetail.vue";
 import AnimeService from "@/services/AnimeService.js";
 import store from "@/store/index.js";
 import UserFavoriteView from "../views/FavoriteListView.vue";
+import SuggestionView from "../views/SuggestionView.vue";
 const routes = [
   {
     path: "/",
@@ -41,6 +42,11 @@ const routes = [
     path: "/favorite",
     name: "favorite",
     component: UserFavoriteView,
+  },
+  {
+    path: "/discovery",
+    name: "discovery",
+    component: SuggestionView,
   },
 ];
 
