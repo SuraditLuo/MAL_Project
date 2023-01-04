@@ -30,28 +30,34 @@
       <h4>Studio: {{ anime.studios[0].name }}</h4>
       <span v-if="loggedIn">
         <h3>
-          Rate this anime:
-          <select id="score" v-model="givenScore">
-            <option value="" disabled selected>Score</option>
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option></select
-          >/10
-          <span v-if="givenScore != ''"
-            ><button class="submit" @click="this.$store.dispatch('AddToList')">
-              Add to list
-            </button></span
-          ><span v-else
-            ><button class="disabled-submit">Add to list</button></span
-          >
+          Your score:
+          <span v-if="wasFavorited() == ''">
+            <select id="score" v-model="givenScore">
+              <option value="" disabled selected>Score</option>
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option></select
+            >/10
+            <span v-if="givenScore != ''"
+              ><button
+                class="submit"
+                @click="this.$store.dispatch('AddToList')"
+              >
+                Add to list
+              </button></span
+            ><span v-else
+              ><button class="disabled-submit">Add to list</button></span
+            >
+          </span>
+          <span v-else> {{ wasFavorited() }}/10 </span>
         </h3>
       </span>
     </div>
@@ -77,6 +83,21 @@
 import { mapState } from "vuex";
 export default {
   name: "AnimeDetailView",
+  methods: {
+    wasFavorited() {
+      let anime = this.$store.state.anime.data;
+      // find a matching anime list, then do something
+      let exists = this.$store.state.currentUser.favorites.find(
+        (fAnime) => fAnime.id === anime.mal_id
+      );
+      if (exists) {
+        //do something
+        return exists.score;
+      } else {
+        return "";
+      }
+    },
+  },
   computed: {
     ...mapState({
       user: (state) => state.currentUser.username,

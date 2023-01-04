@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import loginService from "../services/LoginService";
+import animeService from "@/services/AnimeService";
 import router from "@/router";
 import VuexPersistence from "vuex-persist";
 
@@ -11,6 +12,7 @@ export default createStore({
     loggedIn: false,
     givenScore: "",
     anime: "",
+    selectedAnime: {},
     users: [
       {
         username: "TokiDokor",
@@ -49,8 +51,30 @@ export default createStore({
       this.commit("AddSuccess");
       alert("Successfully add this anime into your list.");
     },
+    RemoveFromList() {
+      let anime = this.state.selectedAnime;
+      console.log(anime.name);
+      this.commit("RemoveSuccess", anime);
+      alert("Successfully remove this anime into your list.");
+    },
   },
   mutations: {
+    RemoveSuccess(state, anime) {
+      animeService.removeMatchingObject(state.currentUser.favorites, anime);
+      // add rank
+      animeService.addRank(state.currentUser.favorites);
+      // find a matching user list, then do something
+      let selectedUser = state.users.find(
+        (user) => user.username === state.currentUser.username
+      );
+      console.log(state.currentUser);
+      if (selectedUser) {
+        //do something
+        selectedUser.favorites = state.currentUser.favorites;
+      }
+      console.log(state.users);
+      router.push("#");
+    },
     AddSuccess(state) {
       state.currentUser.favorites.push({
         id: state.anime.data.mal_id,
@@ -61,19 +85,23 @@ export default createStore({
       state.currentUser.favorites.sort((a, b) => {
         return b.score - a.score;
       });
-      // find a matching user list, then set the favorite to current user favorite
+      // add rank
+      animeService.addRank(state.currentUser.favorites);
+      // find a matching user list, then do something
       let selectedUser = state.users.find(
         (user) => user.username === state.currentUser.username
       );
       console.log(state.currentUser);
       if (selectedUser) {
+        //do something
         selectedUser.favorites = state.currentUser.favorites;
       }
+
       console.log(state.users);
     },
     resetState(state) {
       this.state.loggedIn = false;
-      state.currentUser = null;
+      state.currentUser = { username: "", favorites: [] };
       if (router.currentRoute.value.fullPath == "/favorite") {
         router.go(-1);
       } else {
@@ -83,6 +111,12 @@ export default createStore({
     loginSuccess(state) {
       state.loggedIn = true;
       state.currentUser = { username: this.state.username, favorites: [] };
+      let selectedUser = state.users.find(
+        (user) => user.username === state.currentUser.username
+      );
+      if (selectedUser) {
+        state.currentUser.favorites = selectedUser.favorites;
+      }
       state.username = "";
       state.password = "";
     },
@@ -100,6 +134,11 @@ export default createStore({
     setScoreInput(state, input) {
       state.givenScore = input;
       console.log(state.givenScore);
+    },
+    setSelectedAnime(state, object) {
+      console.log(object.name);
+      state.selectedAnime = object;
+      console.log(state.selectedAnime);
     },
   },
   getters: {},

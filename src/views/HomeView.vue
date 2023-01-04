@@ -129,9 +129,10 @@ export default {
   justify-content: left;
 }
 .centered {
-  width: 70%;
-  margin: 0 auto;
-  text-align: center;
+  align-items: center;
+  height: 300px;
+  margin: 16px auto;
+  width: 78.5%;
 }
 i {
   text-decoration: underline;
@@ -149,7 +150,7 @@ h1 {
   height: 80px;
 }
 .not-found {
-  width: 1200px;
+  width: auto;
   height: 250px;
   background-color: rgb(245, 240, 252);
 }

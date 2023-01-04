@@ -8,7 +8,10 @@
         <img :src="anime.main_picture" :alt="anime.title + ' Poster'" />
         <span class="below-anime-image">
           <h4>{{ anime.title }}</h4>
-          <h4 class="star">&star;</h4>
+          <span v-if="!wasFavorited()">
+            <h4 class="star">&star;</h4>
+          </span>
+          <span v-else><h4 class="star">⭐</h4></span>
         </span>
       </a>
     </router-link>
@@ -17,6 +20,19 @@
 <script>
 export default {
   props: ["anime"],
+  methods: {
+    wasFavorited() {
+      let exist = this.$store.state.currentUser.favorites.find(
+        (fAnime) => fAnime.id === this.anime.mal_id
+      );
+      if (exist) {
+        //do something
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
 };
 </script>
 <style scoped>
