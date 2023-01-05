@@ -38,6 +38,7 @@ export default createStore({
       );
       if (result) {
         this.commit("loginSuccess");
+        this.commit("addIds");
         router.go(-1);
       } else {
         this.commit("loginFail");
@@ -101,7 +102,7 @@ export default createStore({
     },
     resetState(state) {
       this.state.loggedIn = false;
-      state.currentUser = { username: "", favorites: [] };
+      state.currentUser = { id: "", username: "", favorites: [] };
       if (router.currentRoute.value.fullPath == "/favorite") {
         router.go(-1);
       } else {
@@ -110,12 +111,17 @@ export default createStore({
     },
     loginSuccess(state) {
       state.loggedIn = true;
-      state.currentUser = { username: this.state.username, favorites: [] };
+      state.currentUser = {
+        id: "",
+        username: this.state.username,
+        favorites: [],
+      };
       let selectedUser = state.users.find(
         (user) => user.username === state.currentUser.username
       );
       if (selectedUser) {
         state.currentUser.favorites = selectedUser.favorites;
+        state.currentUser.id = selectedUser.id;
       }
       state.username = "";
       state.password = "";
@@ -139,6 +145,11 @@ export default createStore({
       console.log(object.name);
       state.selectedAnime = object;
       console.log(state.selectedAnime);
+    },
+    addIds(state) {
+      state.users.forEach((user, index) => {
+        user.id = index;
+      });
     },
   },
   getters: {},
