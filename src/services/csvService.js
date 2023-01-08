@@ -15,4 +15,7 @@ export default {
       }, 0);
     }
   },
+  deleteCsv() {
+    return;
+  },
 };

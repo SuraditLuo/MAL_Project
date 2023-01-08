@@ -125,8 +125,7 @@ export default {
 .anime-cards {
   display: flex;
   flex-wrap: wrap;
-  width: 1200px;
-  justify-content: left;
+  justify-content: center;
 }
 .centered {
   align-items: center;

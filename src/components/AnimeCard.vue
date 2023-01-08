@@ -5,7 +5,9 @@
       :to="{ name: 'animeDetail', params: { id: anime.mal_id } }"
     >
       <a>
-        <img :src="anime.main_picture" :alt="anime.title + ' Poster'" />
+        <div class="image-container">
+          <img :src="anime.main_picture" :alt="anime.title + ' Poster'" />
+        </div>
         <span class="below-anime-image">
           <h4>{{ anime.title }}</h4>
           <span v-if="!wasFavorited()">
@@ -49,7 +51,7 @@ export default {
 }
 .card img {
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 10px 10px 0px 0px;
   transition: 0.3s;
   max-width: 200px;
 }
@@ -58,6 +60,7 @@ h4 {
   color: rgb(84, 1, 139);
   font-size: 18px;
   text-align: left;
+  padding-bottom: 7px;
   width: 90%;
 }
 a:link,
@@ -75,5 +78,9 @@ a:active {
 .star {
   font-size: 24px;
   text-align: center;
+}
+.image-container {
+  height: 270px;
+  overflow: hidden;
 }
 </style>

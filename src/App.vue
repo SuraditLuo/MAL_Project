@@ -1,9 +1,15 @@
 <template>
   <nav>
-    <router-link to="/"><a class="logo">Anime Lookup</a></router-link>
-    <router-link to="/discovery"
-      ><a class="discovery">Discovery</a></router-link
-    >
+    <span>
+      <router-link to="/"><a class="logo">Anime Lookup</a></router-link>
+      <router-link
+        :to="{
+          name: 'discovery',
+          params: { id: this.$store.state.currentUser.id },
+        }"
+        ><a class="discovery">Discovery</a></router-link
+      >
+    </span>
     <span v-if="this.$route.name !== 'login'">
       <span v-if="this.$store.state.loggedIn == false">
         <router-link to="/login">
@@ -87,5 +93,23 @@ nav a {
   color: rgb(255, 255, 255);
   cursor: pointer;
   margin-right: 16px;
+}
+.discovery {
+  display: inline-block;
+  font-size: 24px;
+  border: 2.5px solid white;
+  box-shadow: 2px 4px #88888847;
+  padding: 5px 10px;
+  border-radius: 10px;
+  background-color: rgb(144, 24, 124);
+  color: rgb(255, 255, 255);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin-left: 16px;
+}
+
+.discovery:hover {
+  font-size: 155%;
+  box-shadow: none;
+  transition: 0.15s;
 }
 </style>

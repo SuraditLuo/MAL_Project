@@ -12,6 +12,7 @@ export default createStore({
     loggedIn: false,
     givenScore: "",
     anime: "",
+    suggest: "",
     selectedAnime: {},
     users: [
       {

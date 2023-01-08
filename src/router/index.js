@@ -46,10 +46,10 @@ const routes = [
     component: UserFavoriteView,
   },
   {
-    path: "/discovery",
+    path: "/discovery/:id",
     name: "discovery",
     component: SuggestionView,
-    beforeEnter: () => {
+    beforeEnter: (to) => {
       console.log(store.state.users);
       let usersList = store.state.users.flatMap((user) =>
         user.favorites.map((favorite) => ({
@@ -61,6 +61,14 @@ const routes = [
       console.log(usersList);
       let csv = json2csv.parse(usersList);
       CsvService.download(csv, "user_favorite.csv", "text/csv");
+      return AnimeService.getSuggestion(to.params.id)
+        .then((response) => {
+          store.state.suggest = response.data;
+          console.log(store.state.suggest);
+        })
+        .finally(() => {
+          CsvService.deleteCsv();
+        });
     },
   },
 ];
