@@ -26,7 +26,7 @@ export default createStore({
         favorites: [],
       },
     ],
-    currentUser: { username: "", favorites: [] },
+    currentUser: { id: "", username: "", favorites: [] },
     username: "",
     password: "",
   },
@@ -104,8 +104,11 @@ export default createStore({
     resetState(state) {
       this.state.loggedIn = false;
       state.currentUser = { id: "", username: "", favorites: [] };
-      if (router.currentRoute.value.fullPath == "/favorite") {
-        router.go(-1);
+      if (
+        router.currentRoute.value.fullPath == "/favorite" ||
+        router.currentRoute.value.fullPath == "/discovery"
+      ) {
+        router.push("/");
       } else {
         router.push("");
       }

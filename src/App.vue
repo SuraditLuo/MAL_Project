@@ -2,13 +2,23 @@
   <nav>
     <span>
       <router-link to="/"><a class="logo">Anime Lookup</a></router-link>
-      <router-link
-        :to="{
-          name: 'discovery',
-          params: { id: this.$store.state.currentUser.id },
-        }"
-        ><a class="discovery">Discovery</a></router-link
+      <span
+        v-if="
+          this.$store.state.loggedIn == true &&
+          this.$store.state.currentUser.favorites.length >= 5
+        "
       >
+        <router-link
+          :to="{
+            name: 'discovery',
+            params: { id: this.$store.state.currentUser.id },
+          }"
+          ><a class="discovery">Discovery</a></router-link
+        >
+      </span>
+      <span v-else>
+        <a class="discovery-disabled">Discovery</a>
+      </span>
     </span>
     <span v-if="this.$route.name !== 'login'">
       <span v-if="this.$store.state.loggedIn == false">
@@ -94,7 +104,8 @@ nav a {
   cursor: pointer;
   margin-right: 16px;
 }
-.discovery {
+.discovery,
+.discovery-disabled {
   display: inline-block;
   font-size: 24px;
   border: 2.5px solid white;
@@ -111,5 +122,8 @@ nav a {
   font-size: 155%;
   box-shadow: none;
   transition: 0.15s;
+}
+.discovery-disabled {
+  opacity: 20%;
 }
 </style>

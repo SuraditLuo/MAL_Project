@@ -1,23 +1,22 @@
 <template>
-  <div class="card">
-    <router-link
-      target="_self"
-      :to="{ name: 'animeDetail', params: { id: anime.mal_id } }"
-    >
-      <a>
-        <div class="image-container">
-          <img :src="anime.main_picture" :alt="anime.title + ' Poster'" />
-        </div>
-        <span class="below-anime-image">
-          <h4>{{ anime.title }}</h4>
-          <span v-if="!wasFavorited()">
-            <h4 class="star">&star;</h4>
-          </span>
-          <span v-else><h4 class="star">⭐</h4></span>
+  <router-link
+    class="card"
+    target="_self"
+    :to="{ name: 'animeDetail', params: { id: anime.mal_id } }"
+  >
+    <a>
+      <div class="image-container">
+        <img :src="anime.main_picture" :alt="anime.title + ' Poster'" />
+      </div>
+      <span class="below-anime-image">
+        <h4>{{ anime.title }}</h4>
+        <span v-if="!wasFavorited()">
+          <h4 class="star">&star;</h4>
         </span>
-      </a>
-    </router-link>
-  </div>
+        <span v-else><h4 class="star">⭐</h4></span>
+      </span>
+    </a>
+  </router-link>
 </template>
 <script>
 export default {

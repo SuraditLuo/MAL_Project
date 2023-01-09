@@ -6,8 +6,6 @@ import AnimeService from "@/services/AnimeService.js";
 import store from "@/store/index.js";
 import UserFavoriteView from "../views/FavoriteListView.vue";
 import SuggestionView from "../views/SuggestionView.vue";
-import CsvService from "@/services/csvService.js";
-import json2csv from "json2csv";
 const routes = [
   {
     path: "/",
@@ -46,33 +44,32 @@ const routes = [
     component: UserFavoriteView,
   },
   {
-    path: "/discovery/:id",
+    path: "/discovery",
     name: "discovery",
     component: SuggestionView,
-    beforeEnter: (to) => {
+    beforeEnter: () => {
       console.log(store.state.users);
       let usersList = store.state.users.flatMap((user) =>
         user.favorites.map((favorite) => ({
-          id: user.id,
-          mal_id: favorite.id,
-          score: favorite.score,
+          user_id: user.id,
+          anime_id: favorite.id,
+          rating: favorite.score,
         }))
       );
       console.log(usersList);
-      let csv = json2csv.parse(usersList);
-      CsvService.download(csv, "user_favorite.csv", "text/csv");
-      return AnimeService.getSuggestion(to.params.id)
-        .then((response) => {
-          store.state.suggest = response.data;
-          console.log(store.state.suggest);
-        })
-        .finally(() => {
-          CsvService.deleteCsv();
-        });
+      // axios.post("http://localhost:5000/api/endpoint", {
+      //   userScore: usersList,
+      // }).then(response => console.log(response.data))
+      return AnimeService.getSuggestion(
+        store.state.currentUser.id,
+        JSON.stringify(usersList)
+      ).then((response) => {
+        store.state.suggest = response.data;
+        console.log(store.state.suggest);
+      });
     },
   },
 ];
-
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,

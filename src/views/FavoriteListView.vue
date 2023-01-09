@@ -75,4 +75,7 @@ th {
 .favorites-list tr:nth-child(4) {
   background-color: rgb(184, 115, 51);
 }
+.favorites-list {
+  margin: auto;
+}
 </style>
