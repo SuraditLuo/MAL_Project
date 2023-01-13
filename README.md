@@ -1,24 +1,6 @@
-# MAL_Project
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# MAL_Project :japan:
+## Suradit Luo 632115043
+> This is my individual project
+### [Front end URL](https://github.com/SuraditLuo/MAL_Project) :desktop_computer:
+### [Back end URL](https://github.com/SuraditLuo/MAL_Project_Flask_App) (Flask app) :floppy_disk:
+### [Test URL](https://github.com/SuraditLuo/Anime-Lookup-Testing) :page_with_curl:
